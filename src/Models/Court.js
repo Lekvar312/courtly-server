@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const courtSchema = new mongoose.Schema({
   name: {type: String, required: true},
-  adress: {type: String, required: true},
+  address: {type: String, required: true},
   type: {type: String, enum:['football', 'tennis', 'basketball'], required: true},
   price: {type: Number, required: true},
   workingHours:{
