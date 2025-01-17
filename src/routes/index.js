@@ -1,6 +1,7 @@
 import express from 'express'
 import userRoutes from './userRoutes.js'
 import courtRoutes from './courtRoutes.js'
+import bookingRoutes from './bookingRoutes.js'
 const router = express.Router()
 
 router.get('/test', (req, res) => {
@@ -8,5 +9,6 @@ router.get('/test', (req, res) => {
 })
 router.use('/users', userRoutes);
 router.use('/courts', courtRoutes);
+router.use('/booking', bookingRoutes);
 
 export default router
