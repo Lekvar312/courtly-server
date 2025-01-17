@@ -3,6 +3,17 @@ import User from '../Models/User.js'
 
 const router  = express.Router()
 
+router.post('/register', async (req, res)=> {
+  const {name,email,password} = req.body
+  try{
+    const user = new User({name, email, password})
+    await user.save()
+    res.status(201).json({ message: 'Користувача створено успішно', user });
+  }catch(e){
+    res.status(500).json({ message: 'Помилка сервера', error: e.message });
+  }
+})
+
 router.get('/', async (req, res) => {
   try {
     const users = await User.find().select('-password'); 
@@ -47,17 +58,6 @@ router.delete('/:id', async(req, res) => {
     if (!user) return res.status(404).json({message:"Користувача не знайдено"})
     res.status(200).json({message:'Користувача успішно видалено'})  
 
-  }catch(e){
-    res.status(500).json({ message: 'Помилка сервера', error: e.message });
-  }
-})
-
-router.post('/register', async (req, res)=> {
-  const {name,email,password} = req.body
-  try{
-    const user = new User({name, email, password})
-    await user.save()
-    res.status(201).json({ message: 'Користувача створено успішно', user });
   }catch(e){
     res.status(500).json({ message: 'Помилка сервера', error: e.message });
   }
