@@ -1,6 +1,6 @@
 import express from 'express'
-import User from '../Models/User.js'
 import userController from '../controllers/userController.js'
+
 const router  = express.Router()
 
 router.post('/register', userController.registration)

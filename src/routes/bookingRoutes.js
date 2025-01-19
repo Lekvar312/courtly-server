@@ -1,7 +1,7 @@
 import express from 'express'
 import Booking from '../Models/Booking.js'
-import Court from '../Models/Court.js'
-import User from '../Models/User.js'
+import Court from '../models/Court.js'
+import User from '../models/User.js'
 
 const router = express.Router()
 

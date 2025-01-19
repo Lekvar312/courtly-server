@@ -1,4 +1,4 @@
-import User from '../Models/User.js'
+import User from '../models/User.js'
 
 class userController {
   async registration (req, res) {
@@ -62,4 +62,4 @@ class userController {
 
 }
 
-export default new userController
+export default new userController()
