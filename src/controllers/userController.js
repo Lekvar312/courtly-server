@@ -34,11 +34,11 @@ class userController {
 
   async editUser (req, res) {
     const {id} = req.params
-    const {name, email } = req.body
+    const {name, email, password } = req.body
     try{
       const user = await User.findByIdAndUpdate(
         id,
-        {name, email},
+        {name, email, password},
         {new: true, runValidators: true}
       )
       if (!user) return res.status(404).json({message:"Користувача не знайдено"})
