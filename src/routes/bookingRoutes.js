@@ -1,10 +1,12 @@
 import express from 'express'
 import bookingController from '../controllers/bookingController.js'
 import { bookingValidationSchema } from '../validation/bookingValidationSchema.js'
-import { validate } from "../middleware/validation.js"
+import { validate } from "../middleware/validationMiddleware.js"
+import checkDuplicateBookingMiddleware from '../middleware/checkDuplicateBookingMiddleware.js'
+
 const router = express.Router()
 
-router.post('/', bookingValidationSchema, validate, bookingController.createBooking)
+router.post('/', bookingValidationSchema, validate, checkDuplicateBookingMiddleware, bookingController.createBooking)
 
 router.get("/", bookingController.getBookings)
 

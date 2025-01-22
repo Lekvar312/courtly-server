@@ -6,17 +6,17 @@ export const bookingValidationSchema = checkSchema({
     notEmpty:{
       errorMessage: "Ви повинні вказати дату"
     },
-    isDate: {
-      errorMessage: "Не відповідає формату дата"
-    }
+    isISO8601: {
+      errorMessage: "Не відповідає формату дата. Використовуйте формат ISO 8601 (YYYY-MM-DD)",
+    },
   },
   startTime:{
     trim: true, 
     notEmpty:{
       errorMessage: "Ви повинні вказати початковий час бронювання"
     },
-    isString:{
-      errorMessage: "Це поле повинне бути рядком"
+    isISO8601: {
+      errorMessage: "Не відповідає формату дата. Використовуйте формат ISO 8601 (YYYY-MM-DD)",
     },
   },
   endTime:{
@@ -24,8 +24,16 @@ export const bookingValidationSchema = checkSchema({
     notEmpty:{
       errorMessage: "Ви повинні вказати кінцевий час бронювання"
     },
-    isString:{
-      errorMessage: "Це поле повинне бути рядком"
+    isISO8601: {
+      errorMessage: "Не відповідає формату дата. Використовуйте формат ISO 8601 (YYYY-MM-DD)",
     },
+    custom:{
+      options: (value, {req}) => {
+        if (new Date(value) <= new Date(req.body.startTime)) {
+          throw new Error("Кінцевий час не може бути меншим або рівним початковому часу");
+        }
+        return true 
+      }
+    }
   }
 })
