@@ -1,5 +1,5 @@
 import bookingService from "../services/bookingService.js"
-import Booking from "../models/Booking.js"
+
 class bookingController {
   async createBooking (req, res) {
     const {courtId, userId, date, startTime, endTime} = req.body
