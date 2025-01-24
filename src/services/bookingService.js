@@ -1,0 +1,57 @@
+import Booking from '../models/Booking.js'
+import Court from '../models/Court.js'
+import User from '../models/User.js'
+
+class bookingService {
+  async createBooking ({courtId, userId, date, startTime, endTime}) {
+    try{
+      const court = await Court.findById(courtId)
+      if(!court) throw new Error("Майданчик не знайдено")
+
+      const user = await User.findById(userId)
+      if(!user) throw new Error("Користувача не знайдено")
+
+      const existingBooging = await Booking.findOne({ courtId, userId, date, startTime, endTime })
+      if(existingBooging) throw new Error('Бронювання вже існує');
+
+      const booking = new Booking({ courtId, userId, date, startTime, endTime })
+      await booking.save()
+
+      return booking 
+    }catch(e){
+      throw new Error(e.message)
+    }
+  }
+  async getBookings () {
+    try{
+      const bookings = await Booking.find()
+        .populate('courtId', 'name address')
+        .populate('userId', 'name email')
+      return bookings
+    }catch(e){
+      throw new Error(e.message)
+    }
+  }
+  async getBookingById(id) {
+    try {
+      const booking = await Booking.findById(id)
+        .populate('courtId', 'name address')
+        .populate('userId', 'name email');
+      if (!booking) throw new Error("Бронювання не знайдено");
+      return booking;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
+  async deleteBooking(id) {
+    try {
+      const booking = await Booking.findByIdAndDelete(id);
+      if (!booking) throw new Error("Бронювання не знайдено");
+      return booking;
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
+}
+
+export default new bookingService()

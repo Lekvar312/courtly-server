@@ -1,56 +1,43 @@
-import Court from '../models/Court.js'
+import courtService from '../services/courtService.js'
 
 class courtController {
 
   async createCourt (req, res) {
     const {name, address, type, price, workingHours} = req.body
     try{
-      const court = new Court({
-        name, address, type, price, workingHours
-      })
-      await court.save()
-      res.status(200).json({ message:"Корт успішно додано" })
+      const court = await courtService.createCourt({name, address, type, price, workingHours})
+      res.status(200).json({ message:"Корт успішно додано"})
     }catch(e){
       res.status(500).json({ message:"Помилка сервера", error: e.message })
     }
   }
-
   async getCourts (req, res) {
     try{
-      const courts = await Court.find()
+      const courts = await courtService.getCourts()
       res.status(200).json(courts)
     }catch(e){
       res.status(500).json({ message:"Помилка сервера", error: e.message })
     }
   }
-
   async getCourtById (req, res) {
     const {id} = req.params
     try{
-      const court = await Court.findById(id)
-      if(!court) return res.status(404).json({ message:"Майданчик не знайдено" })
+      const court = await courtService.getCourtById(id)
       res.status(200).json(court)
     }catch(e){
       res.status(500).json({ message:"Помилка сервера", error: e.message })
     }
   }
-
   async editCourt (req, res) {
     const {id} = req.params
     const {name, address, type, price, workingHours} = req.body
     try{
-      const court = await Court.findByIdAndUpdate(
-        id,
-        {name, address, type, price, workingHours},
-        {new: true, runValidators: true}
-      )
-      if(!court) return res.status(404).json({ message: "Майданчик не знайдено" })
+      const court = await courtService.editCourt({id, name, address, type, price, workingHours})
       res.status(200).json({ message:"Майданчик успішно оновлений", court })
     }catch(e){
       res.status(500).json({ message:"Помилка сервера", error: e.message })
     }
   }
-
   async deleteCourt (req, res) {
     const {id} = req.params
     try{
@@ -61,7 +48,6 @@ class courtController {
       res.status(500).json({ message:"Помилка сервера", error: e.message })
     }
   }
-
 }
 
 export default new courtController()
