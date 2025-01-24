@@ -1,51 +1,36 @@
-import { checkSchema } from "express-validator"
-export const userValidationSchema = checkSchema({
-  name:{
-    trim: true,
-    notEmpty:{
-      errorMessage: "Імя користувача не може бути пустим"
-    },
-    isLength:{
-      options:{ min: 3, max:32},
-      errorMessage: "Імя користувача повинне містити не менше 3 символів і не більше 32 символів"
-    },
-    isString: {
-      errorMessage: "Це поле повинно бути рядком"
-    }
-  },
-  email:{
-    trim: true,
-    notEmpty: {
-      errorMessage: "Це поле не може бути пустим",
-    },
-    isEmail:{
-      errorMessage: "Не коректно введений email"
-    },
-  },
-  password:{
-    trim: true,
-    notEmpty:{
-      errorMessage: "Це поле не може бути порожнім"
-    },
-    isLength:{
-      options:{min: 8, max: 20},
-      errorMessage: "Пароль повинен містит не менше 8 символів і не більше 20 символів"
-    },
-    isString: {
-      errorMessage: "Це поле повинно бути рядком"
-    }
-  },
-  role:{
-    trim: true,
-    notEmpty:{
-      errorMessage: "Це поле не може бути пустим"
-    },
-    isIn:{
-      options:[["admin", "user"]],
-      errorMessage: "Ви повинні вказати admin чи user"
-    },
-    optional:{
-      options:{ nullable: true }
-    }
-  }
+import Joi from "joi";
+
+export const createUserValidationSchema = Joi.object({
+  name: Joi.string().min(3).max(20).required().messages({
+    "string.empty": "Це поле не можу бути пустим",
+    "string.min" : "Це поле може містити мініму 3 символи",
+    "string.max" : "Це поле може містити максимум 20 символів",
+  }),
+  email: Joi.string().email().required().messages({
+    "string.empty": "Це поле не можу бути пустим",
+    "string.email" : "Не праивльно задана електронна адреса",
+  }),
+  password: Joi.string().min(8).max(20).required().messages({
+    "string.empty": "Це поле не можу бути пустим",
+    "string.min" : "Пароль повинен містити мінімум 8 символів",
+    "string.max" : "Пароль може містити максимум 20 символів",
+  }),
+})
+
+
+export const editUserValidationSchema = Joi.object({
+  name: Joi.string().min(3).max(20).optional().messages({
+    "string.empty": "Це поле не можу бути пустим",
+    "string.min" : "Це поле може містити мініму 3 символи",
+    "string.max" : "Це поле може містити максимум 20 символів",
+  }),
+  email: Joi.string().email().optional().messages({
+    "string.empty": "Це поле не можу бути пустим",
+    "string.email" : "Не праивльно задана електронна адреса",
+  }),
+  password: Joi.string().min(8).max(20).optional().messages({
+    "string.empty": "Це поле не можу бути пустим",
+    "string.min" : "Пароль повинен містити мінімум 8 символів",
+    "string.max" : "Пароль може містити максимум 20 символів",
+  }),
 })
