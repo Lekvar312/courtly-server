@@ -3,9 +3,8 @@ import courtService from '../services/courtService.js'
 class courtController {
 
   async createCourt (req, res) {
-    const {name, address, type, price, workingHours} = req.body
     try{
-      const court = await courtService.createCourt({name, address, type, price, workingHours})
+      const court = await courtService.createCourt(req.body, req.files.picture)
       res.status(200).json({ message:"Корт успішно додано"})
     }catch(e){
       res.status(500).json({ message:"Помилка сервера", error: e.message })
@@ -31,8 +30,9 @@ class courtController {
   async editCourt (req, res) {
     const {id} = req.params
     const {name, address, type, price, workingHours} = req.body
+    const picture = req.files?.picture;
     try{
-      const court = await courtService.editCourt({id, name, address, type, price, workingHours})
+      const court = await courtService.editCourt({id, name, address, type, price, workingHours, picture})
       res.status(200).json({ message:"Майданчик успішно оновлений", court })
     }catch(e){
       res.status(500).json({ message:"Помилка сервера", error: e.message })
