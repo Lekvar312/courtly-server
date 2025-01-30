@@ -1,15 +1,18 @@
 import Court from '../models/Court.js'
+import fileService from './fileService.js'
 
 class courtService {
-  async createCourt ({name, address, type, price, workingHours}) {
-    try{
-      const court = await new Court({ name, address, type, price, workingHours })
-      await court.save()
-      return court
-    }catch(e){
-      throw new Error (e.message)
+  async createCourt(court, picture) {
+    try {
+      const picturePath = fileService.saveFile(picture); 
+      const newCourt = new Court({ ...court, picture: picturePath }); 
+      await newCourt.save();
+      return newCourt;
+    } catch (e) {
+      throw new Error(e.message);
     }
   }
+  
   async getCourts () {
     try{
       const courts = await Court.find()
@@ -27,19 +30,34 @@ class courtService {
       throw new Error(e.message)
     }
   }
-  async editCourt ({id, name, address, type, price, workingHours}) {
-    try{
-      const court = await Court.findByIdAndUpdate(
+  async editCourt({ id, name, address, type, price, workingHours, picture }) {
+    try {
+      const court = await Court.findById(id);
+      if (!court) throw new Error("Майданчик не знайдено");
+  
+      const updateData = { name, address, type, price, workingHours };
+  
+      if (picture) {
+        if (court.picture) {
+          fileService.deleteFile(court.picture); 
+        }
+        const picturePath = fileService.saveFile(picture); 
+        updateData.picture = picturePath;
+      }
+  
+      const updatedCourt = await Court.findByIdAndUpdate(
         id,
-        {name, address, type, price, workingHours},
-        {new: true, runValidators: true}
-      )
-      if(!court) throw new Error("Майданчик не знайдено")
-      return court
-    }catch(e){
-      throw new Error(e.message)
+        updateData,
+        { new: true, runValidators: true }
+      );
+      return updatedCourt;
+    } catch (e) {
+      throw new Error(e.message);
     }
   }
+  
+  
+  
   async deleteCourt (id) {
     try{
       const court = await Court.findByIdAndDelete(id)

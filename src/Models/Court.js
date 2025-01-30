@@ -9,6 +9,7 @@ const courtSchema = new mongoose.Schema({
     startTime: {type: String, default:'08:00'},
     endTime: {type: String, default:'23:00'}
   },
+  picture: {type: String}
 })
 
 export default mongoose.model('Court', courtSchema)
