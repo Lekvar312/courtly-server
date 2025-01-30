@@ -9,11 +9,11 @@ const __dirname = path.dirname(__filename);
 class fileService {
   saveFile(file) {
     try {
-      const fileName = uuid.v4() + ".jpg"; // Генеруємо унікальне ім'я файлу
-      const relativePath = path.join("static", fileName); // Відносний шлях до файлу
-      const filePath = path.resolve(__dirname, "..", relativePath); // Повний шлях для збереження
-      file.mv(filePath); // Переміщуємо файл у вказане місце
-      return relativePath; // Повертаємо відносний шлях
+      const fileName = uuid.v4() + ".jpg"; 
+      const relativePath = path.join("static", fileName); 
+      const filePath = path.resolve(__dirname, "..", relativePath);
+      file.mv(filePath); 
+      return relativePath;
     } catch (e) {
       console.log(e);
       throw new Error("Помилка під час збереження файлу");
@@ -22,9 +22,9 @@ class fileService {
 
   deleteFile(filePath) {
     try {
-      const absolutePath = path.resolve(__dirname, "..", filePath); // Перетворюємо на абсолютний шлях
+      const absolutePath = path.resolve(__dirname, "..", filePath); 
       if (fs.existsSync(absolutePath)) {
-        fs.unlinkSync(absolutePath); // Видаляємо файл
+        fs.unlinkSync(absolutePath);
       }
     } catch (e) {
       console.log(e);

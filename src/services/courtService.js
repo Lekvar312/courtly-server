@@ -4,8 +4,8 @@ import fileService from './fileService.js'
 class courtService {
   async createCourt(court, picture) {
     try {
-      const picturePath = fileService.saveFile(picture); // Зберігаємо файл і отримуємо шлях
-      const newCourt = new Court({ ...court, picture: picturePath }); // Додаємо шлях до зображення
+      const picturePath = fileService.saveFile(picture); 
+      const newCourt = new Court({ ...court, picture: picturePath }); 
       await newCourt.save();
       return newCourt;
     } catch (e) {
@@ -39,9 +39,9 @@ class courtService {
   
       if (picture) {
         if (court.picture) {
-          fileService.deleteFile(court.picture); // Видаляємо старе зображення
+          fileService.deleteFile(court.picture); 
         }
-        const picturePath = fileService.saveFile(picture); // Зберігаємо нове зображення
+        const picturePath = fileService.saveFile(picture); 
         updateData.picture = picturePath;
       }
   
