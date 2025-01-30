@@ -41,8 +41,7 @@ class courtController {
   async deleteCourt (req, res) {
     const {id} = req.params
     try{
-      const court = await Court.findByIdAndDelete(id)
-      if(!court) return res.status(404).json({ message:"Майданчик не занайдено" })
+      const court = await courtService.deleteCourt(id)
       res.status(200).json({ message:"Майданчик успішно видалено" })
     }catch(e){
       res.status(500).json({ message:"Помилка сервера", error: e.message })

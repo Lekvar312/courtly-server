@@ -1,11 +1,11 @@
 import User from '../models/User.js'
 
 class userService {
-  async registration ({name, email, password}) {
+  async registration ({name, email, password, role}) {
     try{
       const existingUser = await User.findOne({email})
       if(existingUser) throw new Error ("Користувач з таким email вже існує ")
-      const user = new User({name, email, password})
+      const user = new User({name, email, password, role})
       await user.save()
       return user
     }catch(e){

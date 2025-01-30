@@ -1,33 +1,70 @@
-import Joi from "joi";
+import { checkSchema  } from "express-validator";
 
-export const createBookingValidationSchema = Joi.object({
-  date: Joi.date().required().messages({
-    'date.base': 'Поле повинно бути датою',
-    'any.required': 'Поле не може бути пустим',
-  }),
-  startTime: Joi.date().required().messages({
-    'date.base': 'Поле повинно бути датою',
-    'any.required': 'Поле не може бути пустим',
-  }),
-  endTime: Joi.date().greater(Joi.ref('startTime')).required().messages({
-    'date.base': 'Поле повинно бути датою',
-    'date.greater': 'Кінцевий час повинен бути більшим за початковий',
-    'any.required': 'Поле не може бути пустим',
-  }),
+export const bookingCreateValidationSchema = checkSchema({
+  date:{
+    trim: true,
+    notEmpty:{
+      errorMessage: "Ви повинні вказати дату"
+    },
+    isDate: {
+      errorMessage: "Не відповідає формату дата"
+    }
+  },
+  startTime:{
+    trim: true, 
+    notEmpty:{
+      errorMessage: "Ви повинні вказати початковий час бронювання"
+    },
+    isString:{
+      errorMessage: "Це поле повинне бути рядком"
+    },
+  },
+  endTime:{
+    trim: true, 
+    notEmpty:{
+      errorMessage: "Ви повинні вказати кінцевий час бронювання"
+    },
+    isString:{
+      errorMessage: "Це поле повинне бути рядком"
+    },
+  }
 })
 
-export const editBookingValidationSchema = Joi.object({
-  date: Joi.date().optional().messages({
-    'date.base': 'Поле повинно бути датою',
-    'any.required': 'Поле не може бути пустим',
-  }),
-  startTime: Joi.date().optional().messages({
-    'date.base': 'Поле повинно бути датою',
-    'any.required': 'Поле не може бути пустим',
-  }),
-  endTime: Joi.date().greater(Joi.ref('startTime')).optional().messages({
-    'date.base': 'Поле повинно бути датою',
-    'date.greater': 'Кінцевий час повинен бути більшим за початковий',
-    'any.required': 'Поле не може бути пустим',
-  }),
+export const bookingEditValidationSchema = checkSchema({
+  date:{
+    trim: true,
+    notEmpty:{
+      errorMessage: "Ви повинні вказати дату"
+    },
+    isDate: {
+      errorMessage: "Не відповідає формату дата"
+    },
+    optional:{
+      options:{ nullable: true }
+    },
+  },
+  startTime:{
+    trim: true, 
+    notEmpty:{
+      errorMessage: "Ви повинні вказати початковий час бронювання"
+    },
+    isString:{
+      errorMessage: "Це поле повинне бути рядком"
+    },
+    optional:{
+      options:{ nullable: true }
+    },
+  },
+  endTime:{
+    trim: true, 
+    notEmpty:{
+      errorMessage: "Ви повинні вказати кінцевий час бронювання"
+    },
+    isString:{
+      errorMessage: "Це поле повинне бути рядком"
+    },
+    optional:{
+      options:{ nullable: true }
+    },
+  }
 })

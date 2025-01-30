@@ -1,18 +1,17 @@
 import express from 'express'
 import userController from '../controllers/userController.js'
-import { createUserValidationSchema, editUserValidationSchema } from '../validation/userValidationSchema.js'
+import {userCreateValidationSchema, userEditValidationSchema} from '../validation/userValidationSchema.js'
 import { validationMiddleware } from '../middleware/validationMiddleware.js'
-
 
 const router = express.Router()
 
-router.post('/register',validationMiddleware(createUserValidationSchema),  userController.registration)
+router.post('/register', userCreateValidationSchema, validationMiddleware,  userController.registration)
 
 router.get('/', userController.getUsers)
 
 router.get('/:id', userController.getUserById)
 
-router.put('/:id',validationMiddleware(editUserValidationSchema), userController.editUser)
+router.put('/:id',userEditValidationSchema, validationMiddleware,  userController.editUser)
 
 router.delete('/:id',userController.deleteUser)
 
