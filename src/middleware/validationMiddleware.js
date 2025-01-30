@@ -1,10 +1,7 @@
-export const validationMiddleware = schema => (req, res, next) => {
-  const {error} = schema.validate(req.body)
-  if(error) {
-    return res.status(400).json({
-      message: 'Дані не коректні',
-      error: error.details[0].message
-    })
-  }
-next()
-}
+import { validationResult } from "express-validator";
+
+export const validationMiddleware = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({errors: errors.array()});
+  next();
+};

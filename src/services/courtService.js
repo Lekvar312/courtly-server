@@ -55,13 +55,16 @@ class courtService {
       throw new Error(e.message);
     }
   }
-  
-  
-  
   async deleteCourt (id) {
     try{
-      const court = await Court.findByIdAndDelete(id)
+      const court = await Court.findById(id)
       if(!court) throw new Error ("Майданчик не занайдено")
+
+      if (court.picture) {
+        fileService.deleteFile(court.picture)
+      }
+      
+      await Court.findByIdAndDelete(id)
       return true
     }catch(e){
       throw new Error(e.message)

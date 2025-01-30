@@ -1,17 +1,17 @@
 import express from 'express'
 import courtController from '../controllers/courtController.js'
+import { courtCreateValidationSchema, courtEditValidationSchema } from '../validation/courtValidationSchema.js'
 import { validationMiddleware } from '../middleware/validationMiddleware.js'
-import { createCourtValidationSchema, editCourtValidationSchema } from '../validation/courtValidationSchema.js'
 
 const router = express.Router()
 
-router.post('/', validationMiddleware(createCourtValidationSchema),  courtController.createCourt)
+router.post('/',courtCreateValidationSchema, validationMiddleware, courtController.createCourt)
 
 router.get('/', courtController.getCourts)
 
 router.get('/:id', courtController.getCourtById)
 
-router.put('/:id',  validationMiddleware(editCourtValidationSchema),  courtController.editCourt)
+router.put('/:id', courtEditValidationSchema, validationMiddleware, courtController.editCourt)
 
 router.delete('/:id', courtController.deleteCourt)
 
