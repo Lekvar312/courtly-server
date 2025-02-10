@@ -5,7 +5,7 @@ import { validationMiddleware } from '../middleware/validationMiddleware.js'
 
 const router = express.Router()
 
-router.post('/register', userCreateValidationSchema, validationMiddleware,  userController.registration)
+router.post('/', userCreateValidationSchema, validationMiddleware,  userController.createUser)
 
 router.get('/', userController.getUsers)
 

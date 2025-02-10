@@ -1,10 +1,10 @@
 import userService from '../services/userService.js'
 
 class userController {
-  async registration (req, res) {
+  async createUser (req, res) {
     const {name,email,password, role} = req.body
     try{
-      const user = await userService.registration({name, email, password, role}) 
+      const user = await userService.createUser({name, email, password, role}) 
       res.status(201).json({ message: 'Користувача створено успішно', user });
     }catch(e){
       res.status(500).json({ message: 'Помилка сервера', error: e.message });
