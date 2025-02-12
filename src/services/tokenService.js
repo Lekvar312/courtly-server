@@ -47,7 +47,6 @@ class tokenService {
     return tokenData
   }
 
-
 }
 
 export default new tokenService()
