@@ -10,10 +10,10 @@ router.post('/', userCreateValidationSchema, validationMiddleware,  userControll
 
 router.get('/', authMiddleware, userController.getUsers)
 
-router.get('/:id', userController.getUserById)
+router.get('/:id',authMiddleware, userController.getUserById)
 
-router.put('/:id',userEditValidationSchema, validationMiddleware,  userController.editUser)
+router.put('/:id',authMiddleware, userEditValidationSchema, validationMiddleware,  userController.editUser)
 
-router.delete('/:id',userController.deleteUser)
+router.delete('/:id',authMiddleware, userController.deleteUser)
 
 export default router

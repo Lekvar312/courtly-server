@@ -36,19 +36,19 @@ export const userCreateValidationSchema = checkSchema({
       errorMessage: "Це поле повинно бути рядком"
     }
   },
-  // role:{
-  //   trim: true,
-  //   notEmpty:{
-  //     errorMessage: "Це поле не може бути пустим"
-  //   },
-  //   isIn:{
-  //     options:[["admin", "user"]],
-  //     errorMessage: "Ви повинні вказати admin чи user"
-  //   },
-  //   optional:{
-  //     options:{ nullable: true }
-  //   }
-  // }
+  role:{
+    trim: true,
+    notEmpty:{
+      errorMessage: "Це поле не може бути пустим"
+    },
+    isIn:{
+      options:[["admin", "user"]],
+      errorMessage: "Ви повинні вказати admin чи user"
+    },
+    optional:{
+      options:{ nullable: true }
+    }
+  }
 })  
 
 export const userEditValidationSchema = checkSchema({
