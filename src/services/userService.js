@@ -22,6 +22,7 @@ class userService {
       throw new Error(e.message)
     }
   }
+
   async getUserById ({id}) {
     try{
       const user = await User.findById(id)

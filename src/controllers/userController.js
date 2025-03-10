@@ -1,6 +1,7 @@
 import userService from '../services/userService.js'
 
 class userController {
+
   async createUser (req, res) {
     const {name,email,password, role} = req.body
     try{
@@ -10,6 +11,19 @@ class userController {
       res.status(500).json({ message: 'Помилка сервера', error: e.message });
     }
   }
+async getCurrentUser (req, res) {
+  try {
+    // Поточний користувач знаходиться в req.user, який було додано через authMiddleware
+    const currentUser = req.user;
+    if (!currentUser) {
+      return res.status(404).json({ message: 'Користувача не знайдено' });
+    }
+    res.status(200).json(currentUser);
+  } catch (e) {
+    res.status(500).json({ message: 'Помилка сервера', error: e.message });
+  }
+}
+
   async getUsers (req, res) {
     try {
       const users = await userService.getUsers()
