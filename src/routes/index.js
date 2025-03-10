@@ -3,6 +3,7 @@ import userRoutes from './userRoutes.js'
 import courtRoutes from './courtRoutes.js'
 import bookingRoutes from './bookingRoutes.js'
 import authRoutes from  './authRoutes.js'
+import courtTypeRoutes from './courtTypeRoutes.js'
 import path from 'path';
 
 const router = express.Router()
@@ -15,6 +16,7 @@ router.get('/test', (req, res) => {
 router.use('/auth', authRoutes);
 router.use('/users', userRoutes);
 router.use('/courts', courtRoutes);
+router.use('/courtType', courtTypeRoutes);
 router.use('/booking', bookingRoutes);
 
 export default router
