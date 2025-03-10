@@ -1,11 +1,12 @@
 import User from '../models/User.js'
-
+import bcrypt from 'bcrypt'
 class userService {
-  async registration ({name, email, password, role}) {
+  async createUser ({name, email, password, role}) {
     try{
       const existingUser = await User.findOne({email})
       if(existingUser) throw new Error ("Користувач з таким email вже існує ")
-      const user = new User({name, email, password, role})
+      const hashPassword = await bcrypt.hash(password, 3)
+      const user = new User({name, email, password: hashPassword, role})
       await user.save()
       return user
     }catch(e){
@@ -21,6 +22,7 @@ class userService {
       throw new Error(e.message)
     }
   }
+
   async getUserById ({id}) {
     try{
       const user = await User.findById(id)
