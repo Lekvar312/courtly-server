@@ -5,16 +5,12 @@ import { signupValidationSchema, loginValidationSchema } from '../validation/aut
 
 const router = express.Router();
 
-// Реєстрація
 router.post('/signup', signupValidationSchema, validationMiddleware, authController.signup);
 
-// Вхід
-router.post('/login', loginValidationSchema, validationMiddleware, authController.login);
+router.post('/login', authController.login);
 
-// Вихід
 router.post('/logout', authController.logout);
 
-// Оновлення токену
 router.get('/refresh', authController.refresh);
 
 export default router;

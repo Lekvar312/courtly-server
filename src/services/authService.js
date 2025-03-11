@@ -4,23 +4,32 @@ import bcrypt from 'bcrypt'
 
 class authService {
 
-  async signup (name, email, password) {
-    const candidate = await User.findOne({email})
-    if(candidate) throw new Error ("Користувач с такою поштою вже існує ")
-    const hashPassword = await bcrypt.hash(password, 3)
-    const user = await User.create({name, email, password: hashPassword,})
+  async signup (name, email, password, role = 'user') {
+    const candidate = await User.findOne({ email });
+    if (candidate) throw new Error("Користувач з такою поштою вже існує");
+  
+    const hashPassword = await bcrypt.hash(password, 3);
+    const user = await User.create({
+      name,
+      email,
+      password: hashPassword,
+      role // Тепер роль передається з параметрів
+    });
+  
     const tokens = tokenService.generateTokens({
-      id:user._id,
-      name:user.name,
-      email:user.email,
+      id: user._id,
+      name: user.name,
+      email: user.email,
       role: user.role
-    })
-    await tokenService.saveToken(user._id, tokens.refreshToken)
+    });
+  
+    await tokenService.saveToken(user._id, tokens.refreshToken);
     return {
       ...tokens,
       user: user.toObject()
-    }
+    };
   }
+  
 
   async login (email, password) {
     const user = await User.findOne({email})
