@@ -28,7 +28,7 @@ async getCurrentUser (req, res) {
     try {
       const users = await userService.getUsers()
       res.status(200).json(users); 
-    } catch (error) {
+    } catch (e) {
       res.status(500).json({ message: 'Помилка сервера', error: e.message });
     }
   }
@@ -57,7 +57,6 @@ async getCurrentUser (req, res) {
     try{
       const user = await userService.deleteUser(id)
       res.status(200).json({message:'Користувача успішно видалено'})  
-  
     }catch(e){
       res.status(500).json({ message: 'Помилка сервера', error: e.message });
     }
