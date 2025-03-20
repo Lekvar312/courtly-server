@@ -44,9 +44,9 @@ async getCurrentUser (req, res) {
   }
   async editUser (req, res) {
     const {id} = req.params
-    const {name, email, password } = req.body
+    const {name, email, password, role } = req.body
     try{
-      const user = await userService.editUser({id, name, email, password})
+      const user = await userService.editUser({id, name, email, password, role})
       res.status(200).json({message: "Дані користувача успішно оновлено", user})
     }catch(e){
       res.status(500).json({ message: 'Помилка сервера', error: e.message });

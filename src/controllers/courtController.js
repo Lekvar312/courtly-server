@@ -2,6 +2,7 @@ import courtService from '../services/courtService.js'
 
 class courtController {
   async createCourt(req, res) {
+    
     try {
       const court = await courtService.createCourt(req.body, req.files?.picture);
       res.status(200).json({ message: "Корт успішно додано", court });
@@ -11,13 +12,23 @@ class courtController {
   }
 
   async getCourts(req, res) {
+    const { name } = req.query;
     try {
-      const courts = await courtService.getCourts();
+      let courts;
+  
+      if (name) {
+        courts = await courtService.getCourts({ name });
+      } else {
+        courts = await courtService.getCourts();
+      }
+  
       res.status(200).json(courts);
     } catch (e) {
       res.status(500).json({ message: "Помилка сервера", error: e.message });
     }
   }
+  
+
 
   async getCourtById(req, res) {
     const { id } = req.params;

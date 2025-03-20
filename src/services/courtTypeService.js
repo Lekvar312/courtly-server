@@ -39,8 +39,9 @@ class courtTypeService {
       if (!courtType) throw new Error("Тип майданчика не знайдено");
 
       courtType.name = name;
+
       await courtType.save();
-      return courtType;
+      return {_id: courtType._id, name: courtType.name}
     } catch (e) {
       throw new Error(e.message);
     }

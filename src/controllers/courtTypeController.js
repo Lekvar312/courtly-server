@@ -34,7 +34,7 @@ class courtTypeController {
     const { id } = req.params
     const { name } = req.body
     try {
-      const courtType = courtTypeService.editCourtType(id, name)
+      const courtType = await courtTypeService.editCourtType(id, name)
       res.status(200).json({message: "Успішно відредаговано", courtType})
     } catch (error) {
       res.status(500).json({message: "Помилка сервера", error: error.message})

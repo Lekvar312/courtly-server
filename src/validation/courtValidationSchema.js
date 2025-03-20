@@ -27,15 +27,7 @@ export const courtCreateValidationSchema = checkSchema({
       errorMessage: "Це поле повинно бути рядком"
     }
   },
-  type: {
-    notEmpty: {
-      errorMessage: "Ви повинні вказати тип майданчика"
-    },
-    isIn:{
-      options: [['football', 'tennis', 'basketball']],
-      errorMessage: "Тип майданчика може бути тільки: football, tennis, basketball"
-    },
-  },
+  
   price: {
     trim: true, 
     toInt: true,
@@ -109,10 +101,6 @@ export const courtEditValidationSchema = checkSchema({
   type: {
     notEmpty: {
       errorMessage: "Ви повинні вказати тип майданчика"
-    },
-    isIn:{
-      options: [['football', 'tennis', 'basketball']],
-      errorMessage: "Тип майданчика може бути тільки: football, tennis, basketball"
     },
     optional:{
       options:{ nullable: true }

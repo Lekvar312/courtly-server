@@ -5,30 +5,44 @@ import fileService from './fileService.js'
 class courtService {
   async createCourt(court, picture) {
     try {
-      const { type } = court;
-
+      const { type, workingHours } = court;
+  
+      const parsedWorkingHours = workingHours ? JSON.parse(workingHours) : { startTime: "08:00", endTime: "23:00" };
+  
       const courtType = await CourtType.findOne({ name: type });
       if (!courtType) throw new Error("Такий тип майданчика не існує");
-
+  
       const picturePath = picture ? fileService.saveFile(picture) : null;
-      const newCourt = new Court({ ...court, type: courtType._id, picture: picturePath });
-
+  
+      const newCourt = new Court({
+        ...court,
+        type: courtType._id,  
+        picture: picturePath,
+        workingHours: parsedWorkingHours 
+      });
+  
       await newCourt.save();
-      return newCourt;
+  
+      await newCourt.populate('type', 'name'); 
+  
+      return newCourt;  
     } catch (e) {
       throw new Error(e.message);
     }
   }
 
-  async getCourts() {
-    try {
-      const courts = await Court.find().populate("type", "name");
-      return courts;
-    } catch (e) {
-      throw new Error(e.message);
+  async getCourts(filter = {}) {
+    const query = {};
+  try{
+    if (filter.name) {
+      query.name = { $regex: filter.name, $options: "i" }; 
     }
+    return await Court.find(query).populate("type", "name");
+  } catch(error) {
+    throw new Error(error)
   }
-
+}
+  
   async getCourtById(id) {
     try {
       const court = await Court.findById(id).populate("type", "name");
@@ -61,7 +75,7 @@ class courtService {
       }
 
       const updatedCourt = await Court.findByIdAndUpdate(id, updateData, { new: true, runValidators: true }).populate("type", "name");
-      return updatedCourt;
+      return updatedCourt
     } catch (e) {
       throw new Error(e.message);
     }

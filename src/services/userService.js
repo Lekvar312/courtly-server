@@ -32,11 +32,11 @@ class userService {
       throw new Error(e.message)
     }
   }
-  async editUser ({id, name, email, password}) {
+  async editUser ({id, name, email, role, password}) {
     try{
       const user = await User.findByIdAndUpdate(
         id,
-        {name, email, password},
+        {name, email, password, role},
         {new: true, runValidators: true}
       )
       if (!user) throw new Error("Користувача не знайдено")
