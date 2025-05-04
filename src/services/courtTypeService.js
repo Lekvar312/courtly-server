@@ -1,4 +1,5 @@
-import CourtType from '../models/CourtType.js'
+import CourtType from "../models/CourtType.js";
+import Court from "../models/Court.js";
 
 class courtTypeService {
   async createCourtType(name) {
@@ -41,7 +42,7 @@ class courtTypeService {
       courtType.name = name;
 
       await courtType.save();
-      return {_id: courtType._id, name: courtType.name}
+      return { _id: courtType._id, name: courtType.name };
     } catch (e) {
       throw new Error(e.message);
     }
@@ -51,8 +52,8 @@ class courtTypeService {
     try {
       const courtType = await CourtType.findById(id);
       if (!courtType) throw new Error("Тип майданчика не знайдено");
-
-      await CourtType.findByIdAndDelete(id);
+      const isTypeUsed = await Court.exists({ courtType: id });
+      if (isTypeUsed) throw new Error("Неможливо видалити тип, оскільки він використовується");
       return true;
     } catch (e) {
       throw new Error(e.message);
