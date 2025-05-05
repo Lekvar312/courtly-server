@@ -1,23 +1,22 @@
-import bookingService from "../services/bookingService.js"
+import bookingService from "../services/bookingService.js";
 
 class bookingController {
-  async createBooking (req, res) {
-    const {courtId, userId, date, startTime, endTime} = req.body
-    try{
-      
-      const booking = bookingService.createBooking({courtId, userId, date, startTime, endTime})
-      res.status(201).json({ message:"Бронювання успішно створено", booking })
-    }catch(e){
-      res.status(500).json({ message: "Помилка при створенні бронювання", error: e.message})
+  async createBooking(req, res) {
+    const { courtId, userId, date, timeSlots } = req.body;
+    try {
+      const booking = await bookingService.createBooking({ courtId, userId, date, timeSlots });
+      res.status(201).json({ message: "Бронювання успішно створено", booking });
+    } catch (e) {
+      res.status(500).json({ message: "Помилка при створенні бронювання", error: e.message });
     }
   }
 
-  async getBookings (req, res) {
-    try{
-      const bookings = await bookingService.getBookings()
-      res.status(200).json(bookings)
-    }catch(e){
-      res.status(500).json({ message: "Помилка при отриманні бронювання", error: e.message})
+  async getBookings(req, res) {
+    try {
+      const bookings = await bookingService.getBookings();
+      res.status(200).json(bookings);
+    } catch (e) {
+      res.status(500).json({ message: "Помилка при отриманні бронювання", error: e.message });
     }
   }
 
@@ -42,4 +41,4 @@ class bookingController {
   }
 }
 
-export default new bookingController()
+export default new bookingController();
