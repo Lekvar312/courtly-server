@@ -32,6 +32,14 @@ class bookingService {
     }
   }
 
+  async updateBooking(id, updateData) {
+    try {
+      return await Booking.findByIdAndUpdate(id, updateData, { new: true });
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   async getBookingById(id) {
     try {
       const booking = await Booking.findById(id).populate("courtId", "name address").populate("userId", "name email");

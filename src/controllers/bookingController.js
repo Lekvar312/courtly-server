@@ -20,6 +20,17 @@ class bookingController {
     }
   }
 
+  async updateBooking(req, res) {
+    const { id } = req.params;
+    const { courtId, userId, date, timeSlots } = req.body;
+    try {
+      const updateBooking = await bookingService.updateBooking(id, { courtId, userId, date, timeSlots });
+      res.status(200).json({ message: "Бронювання успіщно оновлено", booking: updateBooking });
+    } catch (error) {
+      res.status(500).json({ message: "Помилка при редагуванні майданчика", error: error.message });
+    }
+  }
+
   async getBookingById(req, res) {
     const { id } = req.params;
     try {

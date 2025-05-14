@@ -11,6 +11,8 @@ router.post("/", checkDuplicateBookingMiddleware, bookingController.createBookin
 
 router.get("/", bookingController.getBookings);
 
+router.put("/:id", bookingController.updateBooking);
+
 router.get("/:id", bookingEditValidationSchema, validationMiddleware, bookingController.getBookingById);
 
 router.delete("/:id", authMiddleware, bookingController.deleteBooking);
