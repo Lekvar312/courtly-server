@@ -11,13 +11,17 @@ class courtController {
   }
 
   async getCourts(req, res) {
-    const { name, sortByPrice } = req.query;
+    const { name, sortByPrice, type } = req.query;
     try {
       let courts;
       const filter = {};
 
       if (name) {
         filter.name = name;
+      }
+
+      if (type) {
+        filter.type = type;
       }
 
       const sort = {};

@@ -1,17 +1,17 @@
-import express from 'express'
-import courtTypeController from '../controllers/courtTypeController.js'
-import authMiddleware from '../middleware/authMiddleware.js'
+import express from "express";
+import courtTypeController from "../controllers/courtTypeController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/', authMiddleware, courtTypeController.createCourtType)
+router.post("/", authMiddleware, courtTypeController.createCourtType);
 
-router.get('/',  authMiddleware, courtTypeController.getCourtType)
+router.get("/", courtTypeController.getCourtType);
 
-router.get('/:id',  authMiddleware, courtTypeController.getCourtTypeById)
+router.get("/:id", authMiddleware, courtTypeController.getCourtTypeById);
 
-router.put('/:id',  authMiddleware, courtTypeController.editCourtTypes)
+router.put("/:id", authMiddleware, courtTypeController.editCourtTypes);
 
-router.delete('/:id',  authMiddleware, courtTypeController.deleteCourtType)
+router.delete("/:id", authMiddleware, courtTypeController.deleteCourtType);
 
-export default router
+export default router;

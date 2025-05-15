@@ -37,6 +37,9 @@ class courtService {
       if (filter.name) {
         query.name = { $regex: filter.name, $options: "i" };
       }
+      if (filter.type) {
+        query.type = filter.type;
+      }
       return await Court.find(query).sort(sort).populate("type", "name");
     } catch (error) {
       throw new Error(error);
