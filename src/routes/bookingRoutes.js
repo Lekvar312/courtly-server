@@ -1,18 +1,20 @@
-import express from 'express'
-import bookingController from '../controllers/bookingController.js'
-import checkDuplicateBookingMiddleware from '../middleware/checkDuplicateBookingMiddleware.js'
-import { validationMiddleware } from '../middleware/validationMiddleware.js'
-import {bookingCreateValidationSchema, bookingEditValidationSchema} from '../validation/bookingValidationSchema.js'
-import authMiddleware from '../middleware/authMiddleware.js'
+import express from "express";
+import bookingController from "../controllers/bookingController.js";
+import checkDuplicateBookingMiddleware from "../middleware/checkDuplicateBookingMiddleware.js";
+import { validationMiddleware } from "../middleware/validationMiddleware.js";
+import { bookingCreateValidationSchema, bookingEditValidationSchema } from "../validation/bookingValidationSchema.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.post('/', bookingCreateValidationSchema, validationMiddleware,  checkDuplicateBookingMiddleware, bookingController.createBooking)
+router.post("/", checkDuplicateBookingMiddleware, bookingController.createBooking);
 
-router.get("/", authMiddleware, bookingController.getBookings)
+router.get("/", bookingController.getBookings);
 
-router.get("/:id",  bookingEditValidationSchema, validationMiddleware, bookingController.getBookingById)
+router.put("/:id", bookingController.updateBooking);
 
-router.delete("/:id", authMiddleware, bookingController.deleteBooking)
+router.get("/:id", bookingEditValidationSchema, validationMiddleware, bookingController.getBookingById);
 
-export default router
+router.delete("/:id", authMiddleware, bookingController.deleteBooking);
+
+export default router;

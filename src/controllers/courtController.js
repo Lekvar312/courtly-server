@@ -1,8 +1,7 @@
-import courtService from '../services/courtService.js'
+import courtService from "../services/courtService.js";
 
 class courtController {
   async createCourt(req, res) {
-    
     try {
       const court = await courtService.createCourt(req.body, req.files?.picture);
       res.status(200).json({ message: "Корт успішно додано", court });
@@ -12,23 +11,35 @@ class courtController {
   }
 
   async getCourts(req, res) {
-    const { name } = req.query;
+    const { name, sortByPrice, type } = req.query;
     try {
       let courts;
-  
+      const filter = {};
+
       if (name) {
-        courts = await courtService.getCourts({ name });
-      } else {
-        courts = await courtService.getCourts();
+        filter.name = name;
       }
-  
+
+      if (type) {
+        filter.type = type;
+      }
+
+      const sort = {};
+      if (sortByPrice) {
+        if (sortByPrice === "asc") {
+          sort.price = 1;
+        } else if (sortByPrice === "desc") {
+          sort.price = -1;
+        }
+      }
+
+      courts = await courtService.getCourts(filter, sort);
+
       res.status(200).json(courts);
     } catch (e) {
       res.status(500).json({ message: "Помилка сервера", error: e.message });
     }
   }
-  
-
 
   async getCourtById(req, res) {
     const { id } = req.params;
