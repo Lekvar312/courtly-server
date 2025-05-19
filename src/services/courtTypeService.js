@@ -51,9 +51,17 @@ class courtTypeService {
   async deleteCourtType(id) {
     try {
       const courtType = await CourtType.findById(id);
-      if (!courtType) throw new Error("Тип майданчика не знайдено");
-      const isTypeUsed = await Court.exists({ courtType: id });
-      if (isTypeUsed) throw new Error("Неможливо видалити тип, оскільки він використовується");
+      if (!courtType) {
+        throw new Error("Тип майданчика не знайдено");
+      }
+
+      // Перевіряємо, чи використовується тип хоча б в одному майданчику
+      const isTypeUsed = await Court.exists({ type: id });
+      if (isTypeUsed) {
+        throw new Error("Неможливо видалити тип, оскільки він прив'язаний до майданчика");
+      }
+
+      await CourtType.findByIdAndDelete(id);
       return true;
     } catch (e) {
       throw new Error(e.message);
