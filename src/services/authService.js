@@ -13,7 +13,7 @@ class authService {
       name,
       email,
       password: hashPassword,
-      role // Тепер роль передається з параметрів
+      role 
     });
   
     const tokens = tokenService.generateTokens({
